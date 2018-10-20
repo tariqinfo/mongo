@@ -1,4 +1,4 @@
-# Mongo datbase CRUD Operation with ES6 
+# Mongo database CRUD Operation with ES6 
 It's about mongodb usage in Node.js with ES6
 # Some important thing you should remaind before understanding given code.
 1 - you should have understading about node.js.
