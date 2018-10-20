@@ -1,0 +1,135 @@
+
+let Base = require("./Base");
+class Employee extends Base {
+
+    constructor() {
+        super();
+        this.table_name = "employee";
+    }
+
+    async insert(employee_obj) {
+
+        let client = await this.get_db_obj();
+        let db = client.db('asset_backup');
+        try {
+
+            db.collection(this.table_name).insertOne(employee_obj, (error, result) => {
+
+                this.assert.equal(null, error);
+                this.assert.equal(1, result.insertedCount);
+                console.log("One Employee Record Inserted Successfully");
+            });
+        }
+        catch (error) {
+
+            console.log(error)
+        }
+        client.close();
+
+    }
+    async insertMany(employee_obj_arr) {
+
+        let client = await this.get_db_obj();
+        let db = client.db('asset_backup');
+        try {
+
+            db.collection(this.table_name).insertMany(employee_obj_arr, (error, result) => {
+
+                this.assert.equal(null, error);
+                this.assert.equal(3, result.insertedCount);
+                console.log("Many Employee Records Inserted Successfully");
+            });
+        }
+        catch (error) {
+            console.log(error);
+        }
+        client.close();
+    }
+
+    async update(obj, where) {
+
+        let client = await this.get_db_obj();
+        let db = client.db('asset_backup');
+        try {
+
+            db.collection(this.table_name).updateOne(where, { $set: obj }, (error, result) => {
+
+                this.assert.equal(null, error);
+
+                console.log(result.matchedCount);
+                console.log(result.modifiedCount);
+                console.log("Updation successfully");
+            });
+        }
+        catch (error) {
+
+            console.log(error);
+        }
+    }
+    async updateMany(obj, where) {
+
+        let client = await this.get_db_obj();
+        let db = client.db('asset_backup');
+        try {
+
+            db.collection(this.table_name).updateMany(where, { $set: obj }, (error, result) => {
+
+                this.assert.equal(null, error);
+
+                console.log(result.matchedCount);
+                console.log(result.modifiedCount);
+                console.log("Updation More record successfully");
+            });
+        }
+        catch (error) {
+
+            console.log(error);
+        }
+    }
+
+    async delete(where) {
+        let client = await this.get_db_obj();
+        let db = client.db('asset_backup');
+        try {
+            db.collection(this.table_name).deleteOne(where, (error, result) => {
+
+                this.assert.equal(null, error);
+                console.log(result.deletedCount);
+            });
+        }
+        catch (error) {
+            consolelog(error);
+        }
+    }
+    async deleteMany(where) {
+        let client = await this.get_db_obj();
+        let db = client.db('asset_backup');
+        try {
+            db.collection(this.table_name).deleteMany(where, (error, result) => {
+
+                this.assert.equal(null, error);
+                console.log(result.deletedCount);
+            });
+        }
+        catch (error) {
+            consolelog(error);
+        }
+    }
+
+    async get_all(obj={}) {
+        let client = await this.get_db_obj();
+        let db = client.db('asset_backup');
+        try {
+            db.collection(this.table_name).find(obj).toArray((error, result) => {
+
+                this.assert.equal(null, error);
+                console.log(result);
+            });
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
+};
+
+module.exports = Employee;
